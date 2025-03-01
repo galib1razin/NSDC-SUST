@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(MEMBER)
+  approved  Boolean  @default(false)
+  blogs     Blog[]
+  notifications Notification[]
+}
+
+model Blog {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  image     String?
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  approved  Boolean  @default(false)
+  visible   Boolean  @default(true)
+}
+
+model Notification {
+  id         Int      @id @default(autoincrement())
+  title      String
+  message    String
+  recipients User[]
+  createdAt  DateTime @default(now())
+}
+
+enum Role {
+  MEMBER
+  ADMIN
+  SUPERVISOR
+}
