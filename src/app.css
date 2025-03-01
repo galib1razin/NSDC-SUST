@@ -1,1 +1,9 @@
-@import 'tailwindcss'
+@import 'tailwindcss';
+body {
+  background: #000;  
+}
+
+/* Global cursor fix for clickable elements */
+a, button, [role="button"], [on\:click] {
+    cursor: pointer;
+  }
